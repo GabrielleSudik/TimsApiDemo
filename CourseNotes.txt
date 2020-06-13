@@ -1,0 +1,44 @@
+The API Project
+
+Started with a .Net Web App, Core 3.1, API.
+
+Note the boilerplate starts with a WeatherForecast example code.
+When you launch, your browser will open with some dummy
+weather info (json) at https://localhost:5001/weatherforecast. 
+We'll delete WeatherForecast for our class.
+Before we do... Check out the Properties for the project,
+then Debug tab. Among other things, "Launch Browser" is set to
+"weatherforecast", just like the last part of the URL above.
+Later, we'll need to change this value to our new work.
+
+-- Add the DLL / Common Project --
+
+Copy the .dll from the Library project, paste it here.
+Add it as a reference. Add THIS COPY, not the one in Library.
+Then paste the referenes from Library project here too.
+In the .csproj file. (Note it seems to open when you select the project.)
+
+-- Configure DI --
+
+Startup.cs -- Configure(): Add the services.Stuff there.
+
+-- Add the Connection String --
+
+appsettings.json. Add:
+
+  "ConnectionStrings": {
+    "Default": "Data Source=(local) ... etc"
+
+Remember the value comes from checking SQL Server Obj Explorer,
+and the properties for the TimsDinerDB. ConnetionString value.
+
+-- Routing --
+
+Startup.cs - Configure().
+There is no redirect to error pages like the other project.
+And the mapping controllers don't have typical paths.
+Instead, the routes are set in the controllers instead of 
+app.UseEndpoints() the way the other projects do.
+More on this in later lessons...
+
+-- Creating Data --
