@@ -42,3 +42,48 @@ app.UseEndpoints() the way the other projects do.
 More on this in later lessons...
 
 -- Creating Data --
+
+Controllers folder -- new controller -- API Controller - Empty.
+OrderController.cs comes with:
+
+    [Route("api/[controller]")]
+    [ApiController]
+
+See notes there.
+
+Also: Controllers folder -- new class:
+ValidateModelAttribute.
+We created this as a way of validating models, which isn't as
+straightforward in APIs as in UI projects.
+We put it in that folder because we'll want to use it 
+for all controllers.
+
+Once you've got the code ready, open up Postman.
+Normally, you just start the project in the browser, then
+add your route. Eg: https://localhost:5001/api/order
+
+But you'll get a page not found message because that will try 
+to run a GET instead of POST. That's (part of) why you
+need Postman. Turn off Certifications and SSL Certifications.
+
+In Postman, navigate to New Request. It'll say Untitled Request.
+At the top, it will have GET/POST/etc dropdown and a URL bar.
+
+To test this code, select POST and put in the URL.
+Since it's a POST, we also need to send some data. 
+So tab to "Body" click "raw" and dropdown "json".
+Then add your body, like so:
+
+{
+	"orderName": "Rick",
+	"foodId": 3,
+	"quantity": 4
+}
+
+Remember there is more in the model than these 3 things,
+but these 3 are all we need to create an order.
+
+Hit SEND. If you did things right, you'll get
+Status: 200 AND in the Response Body, something like 11003
+(ie, the id of the new order). Yay.
+Or even better, { "id": 11004 } when you updated what gets returned.
