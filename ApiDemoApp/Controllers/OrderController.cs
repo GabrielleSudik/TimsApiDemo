@@ -44,8 +44,45 @@ namespace ApiDemoApp.Controllers
             int id = await _orderData.CreateOrder(order);
 
             //return Ok(id); //sends back both the OK plus the id of the newly created order.
-                            //but that's ALL it returns. just a number. So... do this instead:
+            //but that's ALL it returns. just a number. So... do this instead:
             return Ok(new { Id = id }); //now you get { "id": 11004 }. Much nicer.
-    }
+        }
+
+        [HttpGet("{id}")] //"{id}" is what gets added to the end of the path
+                          //ie, it's the URL parameter like https://localhost:5001/api/order/11004
+        [ValidateModel] //see notes in ValidateModelAttribute.cs
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)] //OMG CTRL-J will show the intellisense
+        public async Task<IActionResult> Get(int id)
+        {
+            if (id == 0)
+            {
+                return BadRequest(); //400
+            }
+
+            var order = await _orderData.GetOrderById(id);
+
+            if (order != null)
+            {
+                var food = await _foodData.GetFood();
+
+                var output = new
+                {
+                    Order = order,
+                    ItemPurchased = food.Where(x => x.Id == order.FoodId).FirstOrDefault()?.Title
+                }; //this is an anonymous object, to be used in the return OK.
+
+                return Ok(output); //200
+            }
+            else
+            {
+                return NotFound(); //404
+            }
+        }
     }
 }
+
+
+
+

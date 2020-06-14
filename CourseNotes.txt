@@ -84,6 +84,56 @@ Remember there is more in the model than these 3 things,
 but these 3 are all we need to create an order.
 
 Hit SEND. If you did things right, you'll get
-Status: 200 AND in the Response Body, something like 11003
+Status: 200 and in the Response Body, something like 11003
 (ie, the id of the new order). Yay.
 Or even better, { "id": 11004 } when you updated what gets returned.
+
+-- Reading Data --
+
+OrderController.cs - new GET method. See notes there.
+
+In Postman, try GET and https://localhost:5001/api/order/11004
+You'll get the expected info in the Response Body:
+
+{
+    "order": {
+        "id": 11004,
+        "orderName": "Rick",
+        "orderDate": "2020-06-13T23:26:06.8533333",
+        "foodId": 3,
+        "quantity": 4,
+        "total": 63.8
+    },
+    "itemPurchased": "Sashimi Plate"
+}
+
+FYI, since this is a GET, you could have run it in the browser too.
+Postman is needed for everything except GET.
+
+New controller -- FoodController.cs.
+See you notes there.
+
+In Postman: GET https://localhost:5001/api/food
+No URL or body params needed.
+You'll get:
+
+[
+    {
+        "id": 1,
+        "title": "Bento Box",
+        "description": "Eel, seaweed salad, rice, tempura",
+        "price": 9.95
+    },
+    {
+        "id": 2,
+        "title": "Sushi Plate",
+        "description": "8 pieces - Chef choice",
+        "price": 12.95
+    },
+    {
+        "id": 3,
+        "title": "Sashimi Plate",
+        "description": "Salmon, yellowtail, tuna",
+        "price": 15.95
+    }
+]
