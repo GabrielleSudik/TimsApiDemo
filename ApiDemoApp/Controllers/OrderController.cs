@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ApiDemoApp.Models;
 using DataLibrary.Data;
 using DataLibrary.Models;
 using Microsoft.AspNetCore.Http;
@@ -80,6 +81,35 @@ namespace ApiDemoApp.Controllers
                 return NotFound(); //404
             }
         }
+
+        //next method is for updating orders.
+
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Put([FromBody] OrderUpdateModel data)
+        {
+            await _orderData.UpdateOrderName(data.Id, data.OrderName);
+
+            return Ok(); //fyi we could return data but we don't have to.
+        }
+
+        //next is for deleting orders:
+
+        [HttpDelete("{id}")] //remember this "id" is appended to the URL
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _orderData.DeleteOrder(id);
+
+            return Ok();
+        }
+
+        //FYI in UIs, we usually want the user to confirm a deletion.
+        //IN APIs, we just have to trust that's what the "user" wants to do.
+        //No confirmation.
+
     }
 }
 

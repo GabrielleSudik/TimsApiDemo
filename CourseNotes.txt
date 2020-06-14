@@ -137,3 +137,66 @@ You'll get:
         "price": 15.95
     }
 ]
+
+
+-- Updating Data --
+
+We'll create a new model to represent stuff that gets returned.
+New folder Models - new class OrderUpdateModel.
+
+OrderController.cs - new method Put().
+
+In Postman, run a PUT https://localhost:5001/api/order.
+In the body (raw/json): pass the id of the order to update
+and the new name you want:
+
+{
+	"id": 12002,
+	"orderName": "Don"
+}
+
+To check, use GET https://localhost:5001/api/order/12002
+and you'll see the new name in the Response body:
+
+"orderName": "Don", //etc
+
+-- Deleting Data --
+
+OrderController.cs - new method - Delete()
+
+In Postman: DELETE https://localhost:5001/api/order/12002
+You'll get the status 200.
+If you run the GET for this id, you'll get status 404 Not Found.
+
+-- Deploying --
+
+Again, you're skipping this because you're not set up for it.
+
+-- Enabling CORS --
+
+Cross Origin Resource Sharing: How APIs tell the world
+who they will share info with. It can be set to talk to anyone,
+but usually/often they are limited.
+
+Startup.cs:
+
+services.AddCors() stuff.
+app.UseCors() too.
+
+There's also an issue with your published app not being
+able to do PUTs and DELETEs. In that publication directory, 
+there's a file "web.config". 
+You'll need to add some extra lines of code there:
+
+<system.webServer>
+    <modules runAllManagedModulesForAllRequests="false">
+        <remove name="WebDAVModule" />
+    </modules>
+</system.webServer>
+
+Note republishing will overwrite your manual changes,
+so you may need to do this again. I don't know what this all means, btw.
+(Note you didn't actually do this because you haven't
+published/deployed the app.)
+
+--- End of Section ---
